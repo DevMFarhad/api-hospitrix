@@ -1,0 +1,51 @@
+{
+    "name": "api-hospitrix",
+    "version": "1.0.0",
+    "description": "API server of HOSPITRIX - Web Based Hospital Management System",
+    "main": "index.js",
+    "scripts": {
+        "dev": "ts-node-dev src/index.ts",
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "lint": "eslint ./src --ext .ts",
+        "format": "prettier --write ./src"
+    },
+    "keywords": [
+        "hospitrix",
+        "hms",
+        "hospital",
+        "management",
+        "system"
+    ],
+    "author": {
+        "name": "Mohammad Farhad",
+        "email": "mfarhad.dev@gmail.com",
+        "url": "https://mfarhad.vercel.app"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DevMFarhad/api-hospitrix.git"
+    },
+    "license": "ISC",
+    "packageManager": "pnpm@10.18.2",
+    "dependencies": {
+        "@prisma/client": "^6.18.0",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "express": "^5.1.0"
+    },
+    "devDependencies": {
+        "@eslint/json": "^0.13.2",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.5",
+        "@types/node": "^24.9.2",
+        "eslint": "^9.39.0",
+        "globals": "^16.5.0",
+        "jiti": "^2.6.1",
+        "prettier": "3.6.2",
+        "prisma": "^6.18.0",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.46.2"
+    }
+}
