@@ -8,14 +8,111 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum USER_ROLE {
+  admin
+  doctor
+  receptionist
+  cashier
+  technologist
+  staff
+}
 
-model Post {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  title  String
-  userId String @db.ObjectId
+enum GENDER {
+  male
+  female
+  other
+}
+
+enum WEEK_DAYS {
+  sunday
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
 }
 
 model User {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  email String
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  username          String    @unique
+  password          String
+  role              USER_ROLE
+  isPasswordChanged Boolean   @default(false)
+  otp               String? // otp token
+  lastLogin         String?
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  Doctor            Doctor?
+  Staff             Staff?
+
+  @@map("users")
+}
+
+model Department {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  icon        String
+  name        String   @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Doctor      Doctor[]
+  Staff       Staff[]
+
+  @@map("departments")
+}
+
+model Doctor {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  departmentId String     @db.ObjectId
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  fullName       String
+  email          String   @unique
+  phone          String   @unique
+  address        String?
+  avatar         String?
+  dob            DateTime
+  gender         GENDER
+  specialization String
+  qualification  String
+  designation    String
+
+  consultation_info String // basic info like day, time and room
+  appointment_phone String
+  consultation_fee  Float
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("doctors")
+}
+
+model Staff {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+
+  departmentId String     @db.ObjectId
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  fullName    String
+  email       String   @unique
+  phone       String   @unique
+  address     String?
+  avatar      String?
+  dob         DateTime
+  gender      GENDER
+  designation String
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("staffs")
 }
